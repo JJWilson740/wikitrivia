@@ -1,3 +1,3 @@
-{"label":"Test1","date_label":"Created","description":"Country in western Europe","image":"ballbar20.jpg","year":1822}
-{"label":"Test2","date_label":"Created","description":"Global system of connected computer networks","image":"omp40.jpg","year":1822}
-{"label":"Test3","date_label":"Created","description":"Country in South America","image":"renishaw_logo.png","year":1822}
+{"label":"Test1","date_label":"Created","description":"Country in western Europe","image":"ballbar20.jpg","event_date":"2016-05-30"}
+{"label":"Test2","date_label":"Created","description":"Global system of connected computer networks","image":"omp40.jpg","event_date":"1823-05-01"}
+{"label":"Test3","date_label":"Created","description":"Country in South America","image":"renishaw_logo.png","event_date":"1822-05-01"}

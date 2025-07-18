@@ -14,26 +14,6 @@ type Props = {
   setFlippedId?: (flippedId: string | null) => void;
 };
 
-const datePropIdMap: { [datePropId: string]: string } = {
-  P575: "discovered", // or invented
-  P7589: "date of assent",
-  P577: "published",
-  P1191: "first performed",
-  P1619: "officially opened",
-  P571: "created",
-  P1249: "earliest record",
-  P576: "ended",
-  P8556: "became extinct",
-  P6949: "announced",
-  P1319: "earliest",
-  P569: "born",
-  P570: "died",
-  P582: "ended",
-  P580: "started",
-  P7125: "latest one",
-  P7124: "first one",
-};
-
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
@@ -109,9 +89,7 @@ export default function ItemCard(props: Props) {
               >
                 <span>
                   {"played" in item
-                    ? item.year < -10000
-                      ? item.year.toLocaleString()
-                      : item.year.toString()
+                    ? item.event_date.toLocaleDateString("en-GB")
                     : item.date_label}
                 </span>
               </animated.div>
@@ -127,7 +105,7 @@ export default function ItemCard(props: Props) {
             >
               <span className={styles.label}>{capitalize(item.label)}</span>
               <span className={styles.date}>
-                {capitalize(item.date_label)}: {item.year}
+                {capitalize(item.date_label)}: {item.event_date.toLocaleDateString("en-GB")}
               </span>
               <span className={styles.description}>{item.description}.</span>
             </animated.div>

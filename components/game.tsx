@@ -24,7 +24,8 @@ export default function Game() {
           const item = JSON.parse(line);
           return {
             ...item,
-            id: `${idx}`
+            id: `${idx}`,
+            event_date : new Date(item.event_date),
           }
         })
         // Filter out questions which give away their answers

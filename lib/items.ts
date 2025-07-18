@@ -12,7 +12,8 @@ export function getRandomItem(deck: Item[], played: Item[]): Item {
   const [fromYear, toYear] =
     periods[Math.floor(Math.random() * periods.length)];
   const candidates = deck.filter((candidate) => {
-    if (candidate.year < fromYear || candidate.year > toYear) {
+    const year = candidate.event_date.getFullYear();
+    if (year < fromYear || year > toYear) {
       return false;
     }
     if (tooClose(candidate, played)) {
@@ -32,7 +33,8 @@ function tooClose(item: Item, played: Item[]) {
   if (played.length < 11)
     distance = 110 - 10 * played.length;
 
-  return played.some((p) => Math.abs(item.year - p.year) < distance);
+  const itemYear = item.event_date.getFullYear();
+  return played.some((p) => Math.abs(itemYear - p.event_date.getFullYear()) < distance);
 }
 
 export function checkCorrect(
@@ -40,7 +42,9 @@ export function checkCorrect(
   item: Item,
   index: number
 ): { correct: boolean; delta: number } {
-  const sorted = [...played, item].sort((a, b) => a.year - b.year);
+  // todo: this logic can break if the year is not unique
+
+  const sorted = [...played, item].sort((a, b) => a.event_date.getTime() - b.event_date.getTime());
   const correctIndex = sorted.findIndex((i) => {
     return i.id === item.id;
   });

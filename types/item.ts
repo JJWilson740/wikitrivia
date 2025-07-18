@@ -4,7 +4,7 @@ export interface Item {
   date_label: string;
   description: string;
   image: string;
-  year: number;
+  event_date: Date;
 }
 
 export type PlayedItem = Item & {
