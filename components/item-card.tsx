@@ -50,17 +50,15 @@ export default function ItemCard(props: Props) {
   });
 
   const type = React.useMemo(() => {
+
+    // Note: This can be a bit buggy, where the line below uses the spaces to start being able to split the description.
     const safeDescription = item.description.replace(/ \(.+\)/g, "");
 
-    if (item.description.length < 60 && !/\d\d/.test(safeDescription)) {
-      return item.description.replace(/ \(.+\)/g, "");
+    if (safeDescription.length > 60) {
+      return safeDescription.slice(0, 57) + "...";
     }
 
-    if (item.instance_of.includes("human") && item.occupations !== null) {
-      return item.occupations[0];
-    }
-
-    return item.instance_of[0];
+    return safeDescription
   }, [item]);
 
   return (
@@ -114,7 +112,7 @@ export default function ItemCard(props: Props) {
                     ? item.year < -10000
                       ? item.year.toLocaleString()
                       : item.year.toString()
-                    : datePropIdMap[item.date_prop_id]}
+                    : item.date_label}
                 </span>
               </animated.div>
             </animated.div>
@@ -129,22 +127,9 @@ export default function ItemCard(props: Props) {
             >
               <span className={styles.label}>{capitalize(item.label)}</span>
               <span className={styles.date}>
-                {capitalize(datePropIdMap[item.date_prop_id])}: {item.year}
+                {capitalize(item.date_label)}: {item.year}
               </span>
               <span className={styles.description}>{item.description}.</span>
-              <a
-                href={`https://www.wikipedia.org/wiki/${encodeURIComponent(
-                  item.wikipedia_title
-                )}`}
-                className={styles.wikipedia}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              >
-                Wikipedia
-              </a>
             </animated.div>
           </div>
         );

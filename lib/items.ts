@@ -1,7 +1,9 @@
 import { Item, PlayedItem } from "../types/item";
-import { createWikimediaImage } from "./image";
+import { createWikimediaImage as getImageSrc } from "./image";
 
 export function getRandomItem(deck: Item[], played: Item[]): Item {
+  // todo: we can simplify this logic a lot
+
   const periods: [number, number][] = [
     [-100000, 1000],
     [1000, 1800],
@@ -9,11 +11,7 @@ export function getRandomItem(deck: Item[], played: Item[]): Item {
   ];
   const [fromYear, toYear] =
     periods[Math.floor(Math.random() * periods.length)];
-  const avoidPeople = Math.random() > 0.5;
   const candidates = deck.filter((candidate) => {
-    if (avoidPeople && candidate.instance_of.includes("human")) {
-      return false;
-    }
     if (candidate.year < fromYear || candidate.year > toYear) {
       return false;
     }
@@ -56,6 +54,7 @@ export function checkCorrect(
 
 export function preloadImage(url: string): HTMLImageElement {
   const img = new Image();
-  img.src = createWikimediaImage(url);
+  img.src = getImageSrc(url);
+  img.width = 300; // The default width
   return img;
 }
