@@ -2,7 +2,7 @@ import React from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { GameState } from "../types/game";
 import useAutoMoveSensor from "../lib/useAutoMoveSensor";
-import { checkCorrect, getRandomItem, preloadImage } from "../lib/items";
+import { checkCorrect, getRandomItem2, preloadImage } from "../lib/items";
 import NextItemList from "./next-item-list";
 import PlayedItemList from "./played-item-list";
 import styles from "../styles/board.module.scss";
@@ -21,6 +21,8 @@ export default function Board(props: Props) {
   const { highscore, resetGame, state, setState, updateHighscore } = props;
 
   const [isDragging, setIsDragging] = React.useState(false);
+
+  // hasGameWon can be dertermined by check state.played.length === state.deck.length
 
   async function onDragStart() {
     setIsDragging(true);
@@ -56,11 +58,13 @@ export default function Board(props: Props) {
       });
 
       const newNext = state.nextButOne;
-      const newNextButOne = getRandomItem(
+      const newNextButOne = getRandomItem2(
         newDeck,
         newNext ? [...newPlayed, newNext] : newPlayed
       );
-      const newImageCache = [preloadImage(newNextButOne.image)];
+      
+      // A bit bodgy, but at this point we can know if the game has been wo
+      const newImageCache = [preloadImage(newNextButOne?.image || "")];
 
       setState({
         ...state,

@@ -1,6 +1,13 @@
 import { Item, PlayedItem } from "../types/item";
 import { createWikimediaImage as getImageSrc } from "./image";
 
+export function getRandomItem2(deck: Item[], played: Item[]): Item {
+  // Get a random item from the deck that is not in the played items
+  const filteredDeck = deck.filter((item) => !played.some((p) => p.id === item.id));
+  const nextItem = filteredDeck[Math.floor(Math.random() * filteredDeck.length)]
+  return nextItem;
+}
+
 export function getRandomItem(deck: Item[], played: Item[]): Item {
   // todo: we can simplify this logic a lot
 
@@ -57,6 +64,11 @@ export function checkCorrect(
 }
 
 export function preloadImage(url: string): HTMLImageElement {
+  // A bit of a bodge, but it works for now
+  if (url === "") {
+    return new Image(); // Return an empty image if no URL is provided
+  }
+
   const img = new Image();
   img.src = getImageSrc(url);
   img.width = 300; // The default width
